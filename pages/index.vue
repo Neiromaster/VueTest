@@ -7,7 +7,10 @@
           <div class="field">
             <label class="label">Наименование</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Наименование" v-model="name"
+              <input class="input"
+                     type="text"
+                     placeholder="Наименование"
+                     v-model="name"
                      @focus="$event.target.select()">
             </div>
           </div>
@@ -15,7 +18,10 @@
             <label class="label">Количество</label>
             <div class="field has-addons">
               <p class="control">
-                <input class="input" type="number" placeholder="Количество" v-model.number="count"
+                <input class="input"
+                       type="number"
+                       placeholder="Количество"
+                       v-model.number="count"
                        @focus="$event.target.select()">
               </p>
               <p class="control">
@@ -29,7 +35,10 @@
             <label class="label">Цена</label>
             <div class="field has-addons">
               <p class="control">
-                <input class="input" type="number" placeholder="Стоимость" v-model.number="price"
+                <input class="input"
+                       type="number"
+                       placeholder="Стоимость"
+                       v-model.number="price"
                        @focus="$event.target.select()">
               </p>
               <p class="control">
@@ -59,14 +68,14 @@
             <tfoot>
             <tr>
               <th colspan="2">Итого</th>
-              <th></th>
-              <th></th>
+              <th>{{ sumCounts }}</th>
+              <th>{{ sumPrices }}</th>
               <th></th>
             </tr>
             </tfoot>
             <tbody>
             <tr v-for="(record, key) in records"
-                :key="key">
+                :key="record.count">
               <th>{{ key + 1 }}</th>
               <td>{{ record.name }}</td>
               <td>{{ record.count }}</td>
@@ -84,13 +93,12 @@
 </template>
 
 <script>
-
   export default {
     data() {
       return {
         name: '',
         count: 0,
-        price: 0.0,
+        price: 0,
         records: [],
       };
     },
@@ -107,6 +115,14 @@
         this.name = '';
         this.count = 0;
         this.price = 0;
+      },
+    },
+    computed: {
+      sumCounts() {
+        return this.records.reduce((s, r) => s + r.count, 0);
+      },
+      sumPrices() {
+        return this.records.reduce((s, r) => s + r.price, 0);
       },
     },
   };
@@ -146,4 +162,9 @@
   .table tr:hover .destroy {
     display: block;
   }
+
+  .flip-list-move {
+    transition: transform 1s;
+  }
+
 </style>
